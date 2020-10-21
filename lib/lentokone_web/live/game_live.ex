@@ -31,6 +31,10 @@ defmodule LentokoneWeb.GameLive do
     ~L"""
       <section class="phx-hero">
         <h1>Plane Plane Revolution!</h1>
+        <pre> <%= inspect(@game.plane) %> </pre>
+        <pre> <%= inspect(@game.sequence) %> </pre>
+        <hr>
+        <pre> <%= inspect(@game.game_over) %> </pre>
       </section>
       <div class="board">
         <%= live_component(@socket, BoardComponent, id: :board, assigns: assigns) %>

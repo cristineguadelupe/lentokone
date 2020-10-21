@@ -1,4 +1,4 @@
-defmodule Lentokone.Game.Arrows do
+defmodule Lentokone.Game.Arrow do
   alias Lentokone.{Point, Points}
 
   defstruct location: {0, 0}, direction: :a

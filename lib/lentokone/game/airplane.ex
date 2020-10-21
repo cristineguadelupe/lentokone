@@ -1,7 +1,7 @@
 defmodule Lentokone.Game.Airplane do
   alias Lentokone.{Point, Points}
 
-  defstruct location: {0, 0}, speed: 1
+  defstruct location: {40, 0}, speed: 1
 
   def new(options \\ []) do
     __struct__(options)
@@ -22,6 +22,9 @@ defmodule Lentokone.Game.Airplane do
     |> to_points()
     |> Points.move(airplane.location)
   end
+
+  def maybe_move(true, _old, new), do: new
+  def maybe_move(false, old, _new), do: old
 
   defp to_points(_airplane) do
     [{1, 1}]

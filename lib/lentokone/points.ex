@@ -5,4 +5,13 @@ defmodule Lentokone.Points do
     points
     |> Enum.map(&Point.move(&1, change))
   end
+
+  def valid?(points) do
+    Enum.any?(points, &Point.in_bounds?/1)
+  end
+
+  def terrain?(points) do
+    Enum.any?(points, &Point.terrain?/1)
+  end
+
 end

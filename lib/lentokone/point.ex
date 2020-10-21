@@ -18,4 +18,12 @@ defmodule Lentokone.Point do
     {x + change_x, y + change_y}
   end
 
+  def in_bounds?({x, _y}) when x < 1, do: false
+  def in_bounds?({_x, y}) when y > 20, do: false
+  def in_bounds?({_x, y}) when y < 1, do: false
+  def in_bounds?(_point), do: true
+
+  def terrain?({_x, y}) when y > 18, do: true
+  def terrain?(_point), do: false
+
 end
