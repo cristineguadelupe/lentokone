@@ -4,7 +4,7 @@ defmodule Lentokone.Point do
     {x, y-1}
   end
   def down({x, y}) do
-    {x, y-1}
+    {x, y+1}
   end
 
   def left({x, y}) do

@@ -21,6 +21,7 @@ defmodule Lentokone.Game do
   end
 
   def plane_right(game), do: game |> move(&Airplane.right/1)
+  def plane_down(game), do: game |> move(&Airplane.down/1)
 
   defp new_plane(game) do
     %{game | plane: Airplane.new()}
