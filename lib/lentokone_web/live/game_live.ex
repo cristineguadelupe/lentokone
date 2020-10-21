@@ -6,7 +6,7 @@ defmodule LentokoneWeb.GameLive do
 
   def mount(_params, _session, socket) do
     if connected?(socket) do
-      :timer.send_interval(250, :tick)
+      :timer.send_interval(500, :tick)
     end
     {:ok, new_game(socket)}
   end
@@ -32,7 +32,7 @@ defmodule LentokoneWeb.GameLive do
   end
 
   def handle_info(:tick, socket) do
-    {:noreply, socket |> plane_down}
+    {:noreply, socket |> plane_down |> plane_right}
   end
 
   def handle_event("keydown", %{"key" => "ArrowRight"}, socket) do

@@ -6,12 +6,13 @@ defmodule LentokoneWeb.BoardComponent do
     <svg width="100%" height="400px">
       <rect x="0" y="0" width="100%" height="100%"
         style="
-        fill:purple;
+        fill:#100025;
         stroke:purple;
         stroke-width:5;
-        fill-opacity:0.1;
+        fill-opacity:1.0;
         stroke-opacity:0.9" />
         <%= render_airplane(assigns) %>
+        <%= render_sequence(assigns) %>
       </svg>
     """
   end
@@ -48,6 +49,43 @@ defmodule LentokoneWeb.BoardComponent do
           c-0.2,0-0.4-0.2-0.4-0.4v-1.4c0-0.8-0.6-1.4-1.4-1.4c-0.8,0-1.4,0.6-1.4,1.4v1.4C42.5,19.5,41.8,19.5,41.8,19.5z"/>
       </g>
     </g>
+    </svg>
+    """
+  end
+
+  def render_sequence(%{assigns: %{game: %{sequence: sequence}}} = assigns) do
+    ~L"""
+    <%= for arrow <- sequence do %>
+      <%= render_arrow(assigns, arrow.location, arrow.direction) %>
+    <% end %>
+    """
+  end
+
+  defp render_arrow(assigns, {x, y}, :a) do
+    ~L"""
+    <svg height="100" width="100" x="<%= x * 100 %>" y="<%= y * 10 %>">
+      <image width="100" height="100" xlink:href="images/left_green.png" clip-path="url(#circleView)" />
+    </svg>
+    """
+  end
+  defp render_arrow(assigns, {x, y}, :w) do
+    ~L"""
+    <svg height="100" width="100" x="<%= x * 100 %>" y="<%= y * 10 %>">
+      <image width="100" height="100" xlink:href="images/up_green.png" clip-path="url(#circleView)" />
+    </svg>
+    """
+  end
+  defp render_arrow(assigns, {x, y}, :s) do
+    ~L"""
+    <svg height="100" width="100" x="<%= x * 100 %>" y="<%= y * 10 %>">
+      <image width="100" height="100" xlink:href="images/down_green.png" clip-path="url(#circleView)" />
+    </svg>
+    """
+  end
+  defp render_arrow(assigns, {x, y}, :d) do
+    ~L"""
+    <svg height="100" width="100" x="<%= x * 100 %>" y="<%= y * 10 %>">
+      <image width="100" height="100" xlink:href="images/right_green.png" clip-path="url(#circleView)" />
     </svg>
     """
   end
