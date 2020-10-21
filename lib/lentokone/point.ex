@@ -14,4 +14,8 @@ defmodule Lentokone.Point do
     {x+1, y}
   end
 
+  def move({x, y}, {change_x, change_y}) do
+    {x + change_x, y + change_y}
+  end
+
 end

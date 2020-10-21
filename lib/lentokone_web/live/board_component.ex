@@ -16,10 +16,10 @@ defmodule LentokoneWeb.BoardComponent do
     """
   end
 
-  def render_airplane(assigns) do
+  def render_airplane(%{assigns: %{game: %{plane: %{location: {x, y}}}}} = assigns) do
     ~L"""
-    <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-      x="20px" y="0px" width="100px"
+    <svg x="<%= x %>" y="0px" width="100px" phx-window-keydown="keydown" phx-target=".phx-hero"
+      version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
       viewBox="0 0 63 41.8" style="enable-background:new 0 0 63 41.8;" xml:space="preserve">
     <style type="text/css">
       .st0{fill-rule:evenodd;clip-rule:evenodd;fill:#FF0CC5;}
