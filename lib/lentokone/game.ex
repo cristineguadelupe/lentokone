@@ -1,17 +1,18 @@
 defmodule Lentokone.Game do
-  alias Lentokone.Game.{Airplane, Arrow}
+  alias Lentokone.Game.{Airplane, Arrow, Mountains}
   alias Lentokone.Points
 
-  defstruct [:plane, plane_points: [], sequence: [], game_over: false]
+  defstruct [:plane, :mountains, plane_points: [], sequence: [], game_over: false]
 
   def new do
     __struct__()
     |> new_plane
     |> show_plane
     |> new_sequence
+    |> new_mountains
   end
 
-  def move(game, move_fn) do
+  def move_plane(game, move_fn) do
     old = game.plane
     new =
       game.plane
@@ -28,7 +29,7 @@ defmodule Lentokone.Game do
     |> game_over?()
   end
 
-  def move(game) do
+  def move_sequence(game) do
     sequence =
       for arrow <- game.sequence do
         Arrow.left(arrow)
@@ -36,12 +37,17 @@ defmodule Lentokone.Game do
     %{game | sequence: sequence}
   end
 
+  def move_mountains(game) do
+    %{game |  mountains: Mountains.left(game.mountains)}
+  end
 
-  def plane_right(game), do: game |> move(&Airplane.right/1)
-  def plane_down(game), do: game |> move(&Airplane.down/1)
-  def plane_up(game), do: game |> move(&Airplane.up/1)
 
-  def arrow_left(game), do: game |> move()
+  def plane_right(game), do: game |> move_plane(&Airplane.right/1)
+  def plane_down(game), do: game |> move_plane(&Airplane.down/1)
+  def plane_up(game), do: game |> move_plane(&Airplane.up/1)
+
+  def arrow_left(game), do: game |> move_sequence()
+  def mountains_left(game), do: game |> move_mountains()
 
   defp new_plane(game) do
     %{game | plane: Airplane.new()}
@@ -53,9 +59,13 @@ defmodule Lentokone.Game do
   defp new_sequence(game) do
     sequence =
         for arrow <- 1..4 do
-          Arrow.new(direction: Arrow.random_direction, location: {arrow, 0})
+          Arrow.new(direction: Arrow.random_direction, location: {arrow + 8, 0})
         end
     %{game | sequence: sequence}
+  end
+
+  defp new_mountains(game) do
+    %{game | mountains: Mountains.new()}
   end
 
   defp game_over?(game) do

@@ -13,13 +13,14 @@ defmodule LentokoneWeb.BoardComponent do
         stroke-opacity:0.9" />
         <%= render_airplane(assigns) %>
         <%= render_sequence(assigns) %>
+        <%= render_mountais(assigns) %>
       </svg>
     """
   end
 
   def render_airplane(%{assigns: %{game: %{plane: %{location: {x, y}}}}} = assigns) do
     ~L"""
-    <svg x="<%= x * 10 %>" y="<%= y * 10 %>" width="100px" phx-window-keydown="keydown" phx-target=".board"
+    <svg x="<%= x * 25 %>" y="<%= y * 10 %>" width="100px" phx-window-keydown="keydown" phx-target=".board"
       version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
       viewBox="0 0 63 41.8" style="enable-background:new 0 0 63 41.8;" xml:space="preserve">
     <style type="text/css">
@@ -64,28 +65,36 @@ defmodule LentokoneWeb.BoardComponent do
   defp render_arrow(assigns, {x, y}, :a) do
     ~L"""
     <svg height="100" width="100" x="<%= x * 100 %>" y="<%= y * 10 %>">
-      <image width="100" height="100" xlink:href="images/left_green.png" clip-path="url(#circleView)" />
+      <image width="100" height="100" xlink:href="images/left_green.png" />
     </svg>
     """
   end
   defp render_arrow(assigns, {x, y}, :w) do
     ~L"""
     <svg height="100" width="100" x="<%= x * 100 %>" y="<%= y * 10 %>">
-      <image width="100" height="100" xlink:href="images/up_green.png" clip-path="url(#circleView)" />
+      <image width="100" height="100" xlink:href="images/up_green.png" />
     </svg>
     """
   end
   defp render_arrow(assigns, {x, y}, :s) do
     ~L"""
     <svg height="100" width="100" x="<%= x * 100 %>" y="<%= y * 10 %>">
-      <image width="100" height="100" xlink:href="images/down_green.png" clip-path="url(#circleView)" />
+      <image width="100" height="100" xlink:href="images/down_green.png" />
     </svg>
     """
   end
   defp render_arrow(assigns, {x, y}, :d) do
     ~L"""
     <svg height="100" width="100" x="<%= x * 100 %>" y="<%= y * 10 %>">
-      <image width="100" height="100" xlink:href="images/right_green.png" clip-path="url(#circleView)" />
+      <image width="100" height="100" xlink:href="images/right_green.png" />
+    </svg>
+    """
+  end
+
+  defp render_mountais(%{assigns: %{game: %{mountains: %{location: {x, y}}}}} = assigns) do
+    ~L"""
+    <svg height="400" width="800" x="<%= x * 100 %>" y="<%= y %>">
+      <image width="800" height="650" xlink:href="images/mountains.png" />
     </svg>
     """
   end

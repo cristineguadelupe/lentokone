@@ -7,7 +7,8 @@ defmodule LentokoneWeb.GameLive do
   def mount(_params, _session, socket) do
     if connected?(socket) do
       :timer.send_interval(500, :tick)
-      :timer.send_interval(1000, :sequence)
+      :timer.send_interval(500, :sequence)
+      :timer.send_interval(250, :mountains)
     end
     {:ok, new_game(socket)}
   end
@@ -26,14 +27,18 @@ defmodule LentokoneWeb.GameLive do
   def arrow_left(%{assigns: %{game: game}} = socket) do
     assign(socket, game: Game.arrow_left(game))
   end
+  def mountains_left(%{assigns: %{game: game}} = socket) do
+    assign(socket, game: Game.mountains_left(game))
+  end
 
   def render(assigns) do
     ~L"""
       <section class="phx-hero">
         <h1>Plane Plane Revolution!</h1>
         <pre> <%= inspect(@game.plane) %> </pre>
-        <pre> <%= inspect(@game.sequence) %> </pre>
+        <p> <%= inspect(@game.sequence) %> </p>
         <hr>
+        pre> <%= inspect(@game.mountains) %> </pre>
         <pre> <%= inspect(@game.game_over) %> </pre>
       </section>
       <div class="board">
@@ -46,7 +51,10 @@ defmodule LentokoneWeb.GameLive do
     {:noreply, socket |> plane_down |> plane_right}
   end
   def handle_info(:sequence, socket) do
-    {:noreply, socket |> arrow_left }
+    {:noreply, socket |> arrow_left}
+  end
+  def handle_info(:mountains, socket) do
+    {:noreply, socket |> mountains_left}
   end
 
   def handle_event("keydown", %{"key" => "ArrowRight"}, socket) do
