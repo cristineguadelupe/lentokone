@@ -21,12 +21,18 @@ defmodule Lentokone.Game do
   end
 
   def move(game) do
-    game
+    sequence =
+      for arrow <- game.sequence do
+        Arrows.left(arrow)
+      end
+    %{game | sequence: sequence}
   end
 
   def plane_right(game), do: game |> move(&Airplane.right/1)
   def plane_down(game), do: game |> move(&Airplane.down/1)
   def plane_up(game), do: game |> move(&Airplane.up/1)
+
+  def arrow_left(game), do: game |> move()
 
   defp new_plane(game) do
     %{game | plane: Airplane.new()}
