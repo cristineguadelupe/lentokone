@@ -2,7 +2,7 @@ defmodule Lentokone.Game do
   alias Lentokone.Game.{Airplane, Arrow, Mountains, Skyline}
   alias Lentokone.Points
 
-  defstruct [:plane, :mountains, :skyline, plane_points: [], sequence: [], game_over: false, score: 0]
+  defstruct [:plane, :mountains, :skyline, plane_points: [], sequence: [], game_over: false, score: 0, clean: false]
 
   def new do
     __struct__()
@@ -24,14 +24,18 @@ defmodule Lentokone.Game do
     sequence =
       game.sequence
       |> List.update_at(count_keys(game), &(%{&1 | color: "green"}))
+
     %{game | sequence: sequence}
+    |> clean?()
     |> inc_score()
     |> plane_up()
   end
+
   def wrong_key(game) do
     sequence =
       game.sequence
       |> List.update_at(count_keys(game), &(%{&1 | color: "red"}))
+
     %{game | sequence: sequence}
   end
 
@@ -149,6 +153,13 @@ defmodule Lentokone.Game do
 
   def inc_score(game) do
     %{game | score: game.score + 1}
+  end
+
+  def clean?(game) do
+    clean =
+      game.sequence
+      |> Enum.all?(&(&1.color == "green"))
+    %{game | clean: clean}
   end
 
 end

@@ -52,10 +52,8 @@ defmodule LentokoneWeb.GameLive do
     ~L"""
       <section class="phx-hero">
         <h1>Plane Plane Revolution!</h1>
-        <pre> <%= inspect(@game.plane) %> </pre>
-        <p> <%= inspect(@game.sequence) %> </p>
+        <pre> <%= inspect(@game.score) %> </pre>
         <hr>
-        pre> <%= inspect(@game.mountains) %> </pre>
         <pre> <%= inspect(@game.game_over) %> </pre>
       </section>
       <div class="board">
@@ -64,17 +62,20 @@ defmodule LentokoneWeb.GameLive do
     """
   end
 
+  def handle_info(:tick, %{assigns: %{game: %{clean: true}}} = socket) do
+    {:noreply, socket |> plane_right }
+  end
   def handle_info(:tick, socket) do
-    {:noreply, socket |> plane_down |> plane_right}
+    {:noreply, socket |> plane_down }
   end
   def handle_info(:sequence, socket) do
-    {:noreply, socket |> arrow_left}
+    {:noreply, socket |> arrow_left }
   end
   def handle_info(:mountains, socket) do
-    {:noreply, socket |> mountains_left}
+    {:noreply, socket |> mountains_left }
   end
   def handle_info(:skyline, socket) do
-    {:noreply, socket |> skyline_left}
+    {:noreply, socket |> skyline_left }
   end
 
   def handle_event("keydown", %{"key" => "ArrowRight"}, socket) do

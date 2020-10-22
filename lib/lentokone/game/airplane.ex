@@ -1,7 +1,7 @@
 defmodule Lentokone.Game.Airplane do
   alias Lentokone.{Point, Points}
 
-  defstruct location: {0, 0}, speed: 1
+  defstruct location: {5, 0}, speed: 1
 
   def new(options \\ []) do
     __struct__(options)
