@@ -1,8 +1,8 @@
 defmodule Lentokone.Game do
-  alias Lentokone.Game.{Airplane, Arrow, Mountains}
+  alias Lentokone.Game.{Airplane, Arrow, Mountains, Skyline}
   alias Lentokone.Points
 
-  defstruct [:plane, :mountains, plane_points: [], sequence: [], game_over: false]
+  defstruct [:plane, :mountains, :skyline, plane_points: [], sequence: [], game_over: false]
 
   def new do
     __struct__()
@@ -10,6 +10,7 @@ defmodule Lentokone.Game do
     |> show_plane
     |> new_sequence
     |> new_mountains
+    |> new_skyline
   end
 
   def move_plane(game, move_fn) do
@@ -52,13 +53,29 @@ defmodule Lentokone.Game do
       %{game |  mountains: moved}
   end
 
+  def move_skyline(game) do
+    new =
+      game.skyline
+      |> Skyline.left()
+
+    moved =
+      new
+      |> Skyline.show()
+      |> Points.valid?(-10)
+      |> Skyline.maybe_move(new)
+
+      %{game |  skyline: moved}
+  end
+
 
   def plane_right(game), do: game |> move_plane(&Airplane.right/1)
   def plane_down(game), do: game |> move_plane(&Airplane.down/1)
   def plane_up(game), do: game |> move_plane(&Airplane.up/1)
 
   def arrow_left(game), do: game |> move_sequence()
+
   def mountains_left(game), do: game |> move_mountains()
+  def skyline_left(game), do: game |> move_skyline()
 
   defp new_plane(game) do
     %{game | plane: Airplane.new()}
@@ -77,6 +94,9 @@ defmodule Lentokone.Game do
 
   defp new_mountains(game) do
     %{game | mountains: Mountains.new()}
+  end
+  defp new_skyline(game) do
+    %{game | skyline: Skyline.new()}
   end
 
   defp game_over?(game) do

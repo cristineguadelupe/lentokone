@@ -9,6 +9,7 @@ defmodule LentokoneWeb.GameLive do
       :timer.send_interval(500, :tick)
       :timer.send_interval(500, :sequence)
       :timer.send_interval(250, :mountains)
+      :timer.send_interval(400, :skyline)
     end
     {:ok, new_game(socket)}
   end
@@ -29,6 +30,9 @@ defmodule LentokoneWeb.GameLive do
   end
   def mountains_left(%{assigns: %{game: game}} = socket) do
     assign(socket, game: Game.mountains_left(game))
+  end
+  def skyline_left(%{assigns: %{game: game}} = socket) do
+    assign(socket, game: Game.skyline_left(game))
   end
 
   def render(assigns) do
@@ -55,6 +59,9 @@ defmodule LentokoneWeb.GameLive do
   end
   def handle_info(:mountains, socket) do
     {:noreply, socket |> mountains_left}
+  end
+  def handle_info(:skyline, socket) do
+    {:noreply, socket |> skyline_left}
   end
 
   def handle_event("keydown", %{"key" => "ArrowRight"}, socket) do
