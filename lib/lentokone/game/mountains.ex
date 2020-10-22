@@ -1,7 +1,7 @@
 defmodule Lentokone.Game.Mountains do
   alias Lentokone.{Point, Points}
 
-  defstruct location: {8, 20}
+  defstruct location: {8, 10}
 
   def new(options \\ []) do
     __struct__(options)
@@ -16,6 +16,9 @@ defmodule Lentokone.Game.Mountains do
     |> to_points()
     |> Points.move(mountain.location)
   end
+
+  def maybe_move(true, new), do: new
+  def maybe_move(false, _new), do: new()
 
   defp to_points(_mountain) do
     [{1, 1}]

@@ -35,10 +35,21 @@ defmodule Lentokone.Game do
         Arrow.left(arrow)
       end
     %{game | sequence: sequence}
+    |> new_sequence?()
   end
 
   def move_mountains(game) do
-    %{game |  mountains: Mountains.left(game.mountains)}
+    new =
+      game.mountains
+      |> Mountains.left()
+
+    moved =
+      new
+      |> Mountains.show()
+      |> Points.valid?(-10)
+      |> Mountains.maybe_move(new)
+
+      %{game |  mountains: moved}
   end
 
 
@@ -71,6 +82,21 @@ defmodule Lentokone.Game do
   defp game_over?(game) do
     over = Points.terrain?(game.plane_points)
     %{game | game_over: over}
+  end
+
+  defp new_sequence?(false, game), do: game
+  defp new_sequence?(true, game) do
+    new_sequence(game)
+  end
+
+  defp new_sequence?(game) do
+    for arrow <- game.sequence do
+      arrow
+      |> Arrow.show()
+      |> Points.valid?()
+    end
+    |> Enum.all?(&(&1 == false))
+    |> new_sequence?(game)
   end
 
 end
