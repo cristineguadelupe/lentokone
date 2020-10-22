@@ -2,7 +2,7 @@ defmodule Lentokone.Game do
   alias Lentokone.Game.{Airplane, Arrow, Mountains, Skyline}
   alias Lentokone.Points
 
-  defstruct [:plane, :mountains, :skyline, :key, plane_points: [], sequence: [], game_over: false]
+  defstruct [:plane, :mountains, :skyline, plane_points: [], sequence: [], game_over: false, score: 0]
 
   def new do
     __struct__()
@@ -14,8 +14,25 @@ defmodule Lentokone.Game do
   end
 
   def key(game) do
-    hd(game.sequence)
+    game.sequence
+    |> Enum.filter(&(&1.color != "green"))
+    |> hd()
     |> (&(&1.direction)).()
+  end
+
+  def right_key(game) do
+    sequence =
+      game.sequence
+      |> List.update_at(count_keys(game), &(%{&1 | color: "green"}))
+    %{game | sequence: sequence}
+    |> inc_score()
+    |> plane_up()
+  end
+  def wrong_key(game) do
+    sequence =
+      game.sequence
+      |> List.update_at(count_keys(game), &(%{&1 | color: "red"}))
+    %{game | sequence: sequence}
   end
 
   def move_plane(game, move_fn) do
@@ -122,6 +139,16 @@ defmodule Lentokone.Game do
     end
     |> Enum.all?(&(&1 == false))
     |> new_sequence?(game)
+  end
+
+  def count_keys(game) do
+    game.sequence
+    |> Enum.filter(&(&1.color == "green"))
+    |> length()
+  end
+
+  def inc_score(game) do
+    %{game | score: game.score + 1}
   end
 
 end

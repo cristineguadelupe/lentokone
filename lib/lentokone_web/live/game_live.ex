@@ -41,13 +41,11 @@ defmodule LentokoneWeb.GameLive do
   def key(%{assigns: %{game: game}} = socket) do
     assign(socket, key: Game.key(game))
   end
-  def check_key(%{assigns: %{key: key}} = socket, key) do
-    IO.inspect(key, label: "---- Right key!")
-    socket
+  def check_key(%{assigns: %{game: game, key: key}} = socket, key) do
+    assign(socket, game: Game.right_key(game))
   end
-  def check_key(%{assigns: %{key: key}} = socket, _key) do
-    IO.inspect(key, label: "---- Wrong key!")
-    socket
+  def check_key(%{assigns: %{game: game}} = socket, _key) do
+    assign(socket, game: Game.wrong_key(game))
   end
 
   def render(assigns) do
@@ -81,6 +79,15 @@ defmodule LentokoneWeb.GameLive do
 
   def handle_event("keydown", %{"key" => "ArrowRight"}, socket) do
     {:noreply, socket |> key |> check_key(:d)}
+  end
+  def handle_event("keydown", %{"key" => "ArrowLeft"}, socket) do
+    {:noreply, socket |> key |> check_key(:a)}
+  end
+  def handle_event("keydown", %{"key" => "ArrowUp"}, socket) do
+    {:noreply, socket |> key |> check_key(:w)}
+  end
+  def handle_event("keydown", %{"key" => "ArrowDown"}, socket) do
+    {:noreply, socket |> key |> check_key(:s)}
   end
 
 end
