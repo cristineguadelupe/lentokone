@@ -65,28 +65,28 @@ defmodule LentokoneWeb.BoardComponent do
 
   defp render_arrow(assigns, {x, y}, :a, color) do
     ~L"""
-    <svg height="100" width="100" x="<%= x * 100 %>" y="<%= y * 10 %>">
+    <svg height="100" width="100" x="<%= x * 50 %>" y="<%= y * 10 %>">
       <image width="100" height="100" xlink:href="<%= "images/left_#{color}.png" %>" />
     </svg>
     """
   end
   defp render_arrow(assigns, {x, y}, :w, color) do
     ~L"""
-    <svg height="100" width="100" x="<%= x * 100 %>" y="<%= y * 10 %>">
+    <svg height="100" width="100" x="<%= x * 50 %>" y="<%= y * 10 %>">
       <image width="100" height="100" xlink:href="<%= "images/up_#{color}.png" %>" />
     </svg>
     """
   end
   defp render_arrow(assigns, {x, y}, :s, color) do
     ~L"""
-    <svg height="100" width="100" x="<%= x * 100 %>" y="<%= y * 10 %>">
+    <svg height="100" width="100" x="<%= x * 50 %>" y="<%= y * 10 %>">
       <image width="100" height="100" xlink:href="<%= "images/down_#{color}.png" %>" />
     </svg>
     """
   end
   defp render_arrow(assigns, {x, y}, :d, color) do
     ~L"""
-    <svg height="100" width="100" x="<%= x * 100 %>" y="<%= y * 10 %>">
+    <svg height="100" width="100" x="<%= x * 50 %>" y="<%= y * 10 %>">
       <image width="100" height="100" xlink:href="<%= "images/right_#{color}.png" %>" />
     </svg>
     """

@@ -19,7 +19,7 @@ defmodule Lentokone.Point do
   end
 
   def in_bounds?({x, _y}) when x < 1, do: false
-  def in_bounds?({_x, y}) when y > 20, do: false
+  def in_bounds?({_x, y}) when y > 35, do: false
   def in_bounds?({_x, y}) when y < 1, do: false
   def in_bounds?(_point), do: true
 

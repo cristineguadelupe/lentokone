@@ -6,9 +6,9 @@ defmodule LentokoneWeb.GameLive do
 
   def mount(_params, _session, socket) do
     if connected?(socket) do
-      :timer.send_interval(500, :tick)
-      :timer.send_interval(500, :sequence)
-      :timer.send_interval(250, :mountains)
+      :timer.send_interval(250, :tick)
+      :timer.send_interval(250, :sequence)
+      :timer.send_interval(200, :mountains)
       :timer.send_interval(400, :skyline)
     end
     {:ok, new_game(socket)}
@@ -16,6 +16,9 @@ defmodule LentokoneWeb.GameLive do
 
   def new_game(socket) do
     assign(socket, game: Game.new())
+  end
+  def add_arrow(%{assigns: %{game: game}} = socket) do
+    assign(socket, game: Game.add_arrow(game))
   end
 
   def plane_right(%{assigns: %{game: game}} = socket) do
@@ -52,9 +55,8 @@ defmodule LentokoneWeb.GameLive do
     ~L"""
       <section class="phx-hero">
         <h1>Plane Plane Revolution!</h1>
-        <pre> <%= inspect(@game.score) %> </pre>
         <hr>
-        <pre> <%= inspect(@game.game_over) %> </pre>
+        <h2> <%= inspect(@game.score) %> </h2>
       </section>
       <div class="board">
         <%= live_component(@socket, BoardComponent, id: :board, assigns: assigns) %>
@@ -62,14 +64,11 @@ defmodule LentokoneWeb.GameLive do
     """
   end
 
-  def handle_info(:tick, %{assigns: %{game: %{clean: true}}} = socket) do
-    {:noreply, socket |> plane_right }
-  end
   def handle_info(:tick, socket) do
     {:noreply, socket |> plane_down }
   end
   def handle_info(:sequence, socket) do
-    {:noreply, socket |> arrow_left }
+    {:noreply, socket |> arrow_left |> add_arrow }
   end
   def handle_info(:mountains, socket) do
     {:noreply, socket |> mountains_left }
