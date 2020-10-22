@@ -21,6 +21,9 @@ defmodule LentokoneWeb.GameLive do
   def plane_right(%{assigns: %{game: game}} = socket) do
     assign(socket, game: Game.plane_right(game))
   end
+  def plane_up(%{assigns: %{game: game}} = socket) do
+    assign(socket, game: Game.plane_up(game))
+  end
   def plane_down(%{assigns: %{game: game}} = socket) do
     assign(socket, game: Game.plane_down(game))
   end
@@ -33,6 +36,18 @@ defmodule LentokoneWeb.GameLive do
   end
   def skyline_left(%{assigns: %{game: game}} = socket) do
     assign(socket, game: Game.skyline_left(game))
+  end
+
+  def key(%{assigns: %{game: game}} = socket) do
+    assign(socket, key: Game.key(game))
+  end
+  def check_key(%{assigns: %{key: key}} = socket, key) do
+    IO.inspect(key, label: "---- Right key!")
+    socket
+  end
+  def check_key(%{assigns: %{key: key}} = socket, _key) do
+    IO.inspect(key, label: "---- Wrong key!")
+    socket
   end
 
   def render(assigns) do
@@ -65,7 +80,7 @@ defmodule LentokoneWeb.GameLive do
   end
 
   def handle_event("keydown", %{"key" => "ArrowRight"}, socket) do
-    {:noreply, socket |> plane_right}
+    {:noreply, socket |> key |> check_key(:d)}
   end
 
 end

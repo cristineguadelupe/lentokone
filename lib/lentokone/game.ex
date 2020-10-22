@@ -2,7 +2,7 @@ defmodule Lentokone.Game do
   alias Lentokone.Game.{Airplane, Arrow, Mountains, Skyline}
   alias Lentokone.Points
 
-  defstruct [:plane, :mountains, :skyline, plane_points: [], sequence: [], game_over: false]
+  defstruct [:plane, :mountains, :skyline, :key, plane_points: [], sequence: [], game_over: false]
 
   def new do
     __struct__()
@@ -11,6 +11,11 @@ defmodule Lentokone.Game do
     |> new_sequence
     |> new_mountains
     |> new_skyline
+  end
+
+  def key(game) do
+    hd(game.sequence)
+    |> (&(&1.direction)).()
   end
 
   def move_plane(game, move_fn) do

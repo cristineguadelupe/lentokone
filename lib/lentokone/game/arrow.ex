@@ -1,7 +1,7 @@
 defmodule Lentokone.Game.Arrow do
   alias Lentokone.{Point, Points}
 
-  defstruct location: {0, 0}, direction: :a
+  defstruct location: {0, 0}, direction: :a, color: "white"
 
   @directions [:a, :w, :s, :d]
 
@@ -26,6 +26,5 @@ defmodule Lentokone.Game.Arrow do
   defp to_points(_arrow) do
     [{1, 1}]
   end
-
 
 end
