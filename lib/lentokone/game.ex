@@ -108,7 +108,7 @@ defmodule Lentokone.Game do
   def cloud_left(game), do: game |> move_clouds()
 
   def add_arrow(game), do: game |> new_arrow()
-  def add_cloud(game), do: game |> new_cloud()
+  def add_cloud(game), do: game |> new_cloud() |> clear_clouds()
 
   defp new_plane(game) do
     %{game | plane: Airplane.new()}
@@ -138,14 +138,21 @@ defmodule Lentokone.Game do
     %{game | game_over: over}
   end
 
-  def count_keys(game) do
+  defp count_keys(game) do
     game.sequence
     |> Enum.filter(&(&1.color == "green"))
     |> length()
   end
 
-  def inc_score(game) do
+  defp inc_score(game) do
     %{game | score: game.score + 1}
+  end
+
+  defp clear_clouds(game) do
+    clouds =
+      game.clouds
+      |> Enum.filter(&(&1 |> Clouds.show |> Points.valid?(-10)))
+    %{game | clouds: clouds}
   end
 
 end
