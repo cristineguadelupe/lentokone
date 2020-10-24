@@ -1,10 +1,11 @@
 defmodule Lentokone.Game.Mountains do
   alias Lentokone.{Point, Points}
 
-  defstruct location: {8, 10}
+  defstruct location: {8, 10}, type: 1
 
   def new(options \\ []) do
     __struct__(options)
+    |> random_type()
   end
 
   def left(mountain) do
@@ -22,6 +23,10 @@ defmodule Lentokone.Game.Mountains do
 
   defp to_points(_mountain) do
     [{1, 1}]
+  end
+
+  defp random_type(mountain) do
+    %{mountain | type: Enum.random(1..4)}
   end
 
 end
