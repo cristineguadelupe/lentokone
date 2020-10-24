@@ -104,5 +104,8 @@ defmodule LentokoneWeb.GameLive do
   def handle_event("keydown", %{"key" => "ArrowDown"}, socket) do
     {:noreply, socket |> key |> check_key(:s)}
   end
+  def handle_event("keydown", _key, socket) do
+    {:noreply, socket}
+  end
 
 end

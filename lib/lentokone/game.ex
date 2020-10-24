@@ -153,7 +153,7 @@ defmodule Lentokone.Game do
     |> Enum.filter(&!(&1 |> Arrow.show |> Points.valid?(0)))
     |> Enum.filter(&(&1.color != "green"))
     |> length()
-    |> (&(&1 > 3)).()
+    |> (&(&1 > 0)).()
     |> inc_speed(game)
   end
 
