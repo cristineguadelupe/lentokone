@@ -1,10 +1,11 @@
 defmodule Lentokone.Game.Skyline do
   alias Lentokone.{Point, Points}
 
-  defstruct location: {8, 10}
+  defstruct location: {8, 10}, type: 1
 
   def new(options \\ []) do
     __struct__(options)
+    |> random_type()
   end
 
   def left(skyline) do
@@ -22,5 +23,9 @@ defmodule Lentokone.Game.Skyline do
 
   defp to_points(_skyline) do
     [{1, 1}]
+  end
+
+  defp random_type(skyline) do
+    %{skyline | type: Enum.random(1..2)}
   end
 end
