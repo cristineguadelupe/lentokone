@@ -22,7 +22,7 @@ defmodule LentokoneWeb.BoardComponent do
 
   def render_airplane(%{assigns: %{game: %{plane: %{location: {x, y}, speed: speed}}}} = assigns) do
     ~L"""
-    <svg x="<%= x * (25 + (speed * 5)) %>" y="<%= y * (10 + (speed * 2)) %>"
+    <svg x="<%= x * (25 + speed) %>" y="<%= y * (10 + (speed * 2)) %>"
       height="100" width="100px" phx-window-keydown="keydown" phx-target=".board"
       version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
       viewBox="0 0 63 41.8" style="enable-background:new 0 0 63 41.8;" xml:space="preserve">
