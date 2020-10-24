@@ -21,8 +21,8 @@ defmodule Lentokone.Game.Clouds do
   def maybe_move(false, _new), do: new(location: random_location())
 
   def random_location do
-    x = Enum.random(60..100)
-    y = Enum.random(0..5)
+    x = Enum.random(60..250)
+    y = Enum.random(0..25)
     {x, y}
   end
 

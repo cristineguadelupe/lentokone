@@ -10,6 +10,7 @@ defmodule LentokoneWeb.GameLive do
       :timer.send_interval(250, :sequence)
       :timer.send_interval(150, :mountains)
       :timer.send_interval(400, :skyline)
+      :timer.send_interval(75, :clouds)
     end
     {:ok, new_game(socket)}
   end
@@ -19,6 +20,9 @@ defmodule LentokoneWeb.GameLive do
   end
   def add_arrow(%{assigns: %{game: game}} = socket) do
     assign(socket, game: Game.add_arrow(game))
+  end
+  def add_cloud(%{assigns: %{game: game}} = socket) do
+    assign(socket, game: Game.add_cloud(game))
   end
 
   def plane_right(%{assigns: %{game: game}} = socket) do
@@ -33,6 +37,9 @@ defmodule LentokoneWeb.GameLive do
 
   def arrow_left(%{assigns: %{game: game}} = socket) do
     assign(socket, game: Game.arrow_left(game))
+  end
+  def cloud_left(%{assigns: %{game: game}} = socket) do
+    assign(socket, game: Game.cloud_left(game))
   end
   def mountains_left(%{assigns: %{game: game}} = socket) do
     assign(socket, game: Game.mountains_left(game))
@@ -75,6 +82,9 @@ defmodule LentokoneWeb.GameLive do
   end
   def handle_info(:skyline, socket) do
     {:noreply, socket |> skyline_left }
+  end
+  def handle_info(:clouds, socket) do
+    {:noreply, socket |> cloud_left |> add_cloud}
   end
 
   def handle_event("keydown", %{"key" => "ArrowRight"}, socket) do

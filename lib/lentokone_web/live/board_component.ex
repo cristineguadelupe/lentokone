@@ -117,8 +117,8 @@ defmodule LentokoneWeb.BoardComponent do
   end
   defp render_cloud(assigns, {x, y}) do
     ~L"""
-    <svg height="100" width="300" x="<%= x %>" y="<%= y %>" opacity="0.1">
-      <image width="300" height="100" xlink:href="images/cloud2.png" />
+    <svg height="250" width="250" x="<%= x * 10 %>" y="<%= y * 10 %>" opacity="0.1">
+      <image width="250" height="250" xlink:href="images/cloud2.png" />
     </svg>
     """
   end

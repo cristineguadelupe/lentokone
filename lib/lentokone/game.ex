@@ -9,7 +9,6 @@ defmodule Lentokone.Game do
     |> new_plane
     |> new_mountains
     |> new_skyline
-    |> new_clouds(6)
   end
 
   def key(game) do
@@ -106,9 +105,10 @@ defmodule Lentokone.Game do
 
   def mountains_left(game), do: game |> move_mountains()
   def skyline_left(game), do: game |> move_skyline()
-  def clouds_left(game), do: game |> move_clouds()
+  def cloud_left(game), do: game |> move_clouds()
 
   def add_arrow(game), do: game |> new_arrow()
+  def add_cloud(game), do: game |> new_cloud()
 
   defp new_plane(game) do
     %{game | plane: Airplane.new()}
@@ -117,6 +117,10 @@ defmodule Lentokone.Game do
     arrow = Arrow.new(direction: Arrow.random_direction, location: {length(game.sequence) + 15, 0})
     %{game | sequence: game.sequence ++ [arrow]}
   end
+  def new_cloud(game) do
+    cloud = Clouds.new(location: Clouds.random_location())
+    %{game | clouds: game.clouds ++ [cloud]}
+  end
 
 
   defp new_mountains(game) do
@@ -124,12 +128,6 @@ defmodule Lentokone.Game do
   end
   defp new_skyline(game) do
     %{game | skyline: Skyline.new()}
-  end
-  defp new_clouds(game, n) do
-    clouds = for _cloud <- 1..n do
-      Clouds.new(location: Clouds.random_location())
-    end
-    %{game | clouds: clouds}
   end
 
   defp game_over?(game) do
