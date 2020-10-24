@@ -26,6 +26,6 @@ defmodule Lentokone.Game.Skyline do
   end
 
   defp random_type(skyline) do
-    %{skyline | type: Enum.random(1..2)}
+    %{skyline | type: Enum.random(1..3)}
   end
 end
