@@ -148,11 +148,26 @@ defmodule Lentokone.Game do
     %{game | score: game.score + 1}
   end
 
+  defp inc_speed?(game) do
+    game.sequence
+    |> Enum.filter(&!(&1 |> Arrow.show |> Points.valid?(0)))
+    |> Enum.filter(&(&1.color != "green"))
+    |> length()
+    |> (&(&1 > 3)).()
+    |> inc_speed(game)
+  end
+
+  defp inc_speed(true, game) do
+    %{game | plane: Airplane.inc_speed(game.plane)}
+  end
+  defp inc_speed(false, game), do: game
+
   defp clear_arrows(game) do
     sequence =
       game.sequence
       |> Enum.filter(&(&1 |> Arrow.show |> Points.valid?(-10)))
     %{game | sequence: sequence}
+    |> inc_speed?()
   end
   defp clear_clouds(game) do
     clouds =

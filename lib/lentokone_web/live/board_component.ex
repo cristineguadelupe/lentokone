@@ -12,17 +12,18 @@ defmodule LentokoneWeb.BoardComponent do
         fill-opacity:1.0;
         stroke-opacity:0.9" />
         <%= render_sequence(assigns) %>
-        <%= render_clouds(assigns) %>
         <%= render_skyline(assigns) %>
         <%= render_airplane(assigns) %>
+        <%= render_clouds(assigns) %>
         <%= render_mountais(assigns) %>
       </svg>
     """
   end
 
-  def render_airplane(%{assigns: %{game: %{plane: %{location: {x, y}}}}} = assigns) do
+  def render_airplane(%{assigns: %{game: %{plane: %{location: {x, y}, speed: speed}}}} = assigns) do
     ~L"""
-    <svg x="<%= x * 25 %>" y="<%= y * 10 %>" height="100" width="100px" phx-window-keydown="keydown" phx-target=".board"
+    <svg x="<%= x * (25 + (speed * 5)) %>" y="<%= y * (10 + (speed * 2)) %>"
+      height="100" width="100px" phx-window-keydown="keydown" phx-target=".board"
       version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
       viewBox="0 0 63 41.8" style="enable-background:new 0 0 63 41.8;" xml:space="preserve">
     <style type="text/css">

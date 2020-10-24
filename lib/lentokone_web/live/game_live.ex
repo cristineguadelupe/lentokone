@@ -24,6 +24,11 @@ defmodule LentokoneWeb.GameLive do
   def add_cloud(%{assigns: %{game: game}} = socket) do
     assign(socket, game: Game.add_cloud(game))
   end
+  defp maybe_end_game(%{assigns: %{game: %{game_over: true}}} = socket) do
+    socket
+    |> push_redirect(to: "/game/over?score=#{socket.assigns.game.score}")
+  end
+  defp maybe_end_game(socket), do: socket
 
   def plane_right(%{assigns: %{game: game}} = socket) do
     assign(socket, game: Game.plane_right(game))
@@ -75,7 +80,7 @@ defmodule LentokoneWeb.GameLive do
     {:noreply, socket |> plane_down }
   end
   def handle_info(:sequence, socket) do
-    {:noreply, socket |> arrow_left |> add_arrow }
+    {:noreply, socket |> arrow_left |> add_arrow |> maybe_end_game }
   end
   def handle_info(:mountains, socket) do
     {:noreply, socket |> mountains_left }

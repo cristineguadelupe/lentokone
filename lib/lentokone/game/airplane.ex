@@ -16,6 +16,9 @@ defmodule Lentokone.Game.Airplane do
   def down(airplane) do
     %{airplane | location: Point.down(airplane.location)}
   end
+  def inc_speed(airplane) do
+    %{airplane | speed: airplane.speed + 1}
+  end
 
   def show(airplane) do
     airplane

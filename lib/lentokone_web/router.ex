@@ -19,6 +19,7 @@ defmodule LentokoneWeb.Router do
 
     live "/", PageLive, :index
     live "/game", GameLive
+    live "/game/over", GameOverLive
   end
 
   # Other scopes may use custom stacks.
