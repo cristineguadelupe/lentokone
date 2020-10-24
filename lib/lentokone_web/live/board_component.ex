@@ -11,9 +11,10 @@ defmodule LentokoneWeb.BoardComponent do
         stroke-width:5;
         fill-opacity:1.0;
         stroke-opacity:0.9" />
-        <%= render_airplane(assigns) %>
         <%= render_sequence(assigns) %>
+        <%= render_clouds(assigns) %>
         <%= render_skyline(assigns) %>
+        <%= render_airplane(assigns) %>
         <%= render_mountais(assigns) %>
       </svg>
     """
@@ -102,7 +103,22 @@ defmodule LentokoneWeb.BoardComponent do
   defp render_skyline(%{assigns: %{game: %{skyline: %{location: {x, y}}}}} = assigns) do
     ~L"""
     <svg height="400" width="400" x="<%= x * 100 %>" y="<%= y %>">
-      <image width="400" height="650" xlink:href="images/skyline.png" />
+      <image width="300" height="650" xlink:href="images/skyline.png" />
+    </svg>
+    """
+  end
+
+  def render_clouds(%{assigns: %{game: %{clouds: clouds}}} = assigns) do
+    ~L"""
+    <%= for cloud <- clouds do %>
+      <%= render_cloud(assigns, cloud.location) %>
+    <% end %>
+    """
+  end
+  defp render_cloud(assigns, {x, y}) do
+    ~L"""
+    <svg height="100" width="300" x="<%= x %>" y="<%= y %>" opacity="0.1">
+      <image width="300" height="100" xlink:href="images/cloud2.png" />
     </svg>
     """
   end

@@ -6,9 +6,9 @@ defmodule LentokoneWeb.GameLive do
 
   def mount(_params, _session, socket) do
     if connected?(socket) do
-      :timer.send_interval(250, :tick)
+      :timer.send_interval(400, :tick)
       :timer.send_interval(250, :sequence)
-      :timer.send_interval(200, :mountains)
+      :timer.send_interval(150, :mountains)
       :timer.send_interval(400, :skyline)
     end
     {:ok, new_game(socket)}

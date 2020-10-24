@@ -1,15 +1,15 @@
 defmodule Lentokone.Game do
-  alias Lentokone.Game.{Airplane, Arrow, Mountains, Skyline}
+  alias Lentokone.Game.{Airplane, Arrow, Clouds, Mountains, Skyline}
   alias Lentokone.Points
 
-  defstruct [:plane, :mountains, :skyline, plane_points: [], sequence: [], game_over: false, score: 0]
+  defstruct [:plane, :mountains, :skyline, clouds: [], sequence: [], game_over: false, score: 0]
 
   def new do
     __struct__()
     |> new_plane
-    |> show_plane
     |> new_mountains
     |> new_skyline
+    |> new_clouds(6)
   end
 
   def key(game) do
@@ -50,7 +50,6 @@ defmodule Lentokone.Game do
       |> Airplane.maybe_move(old, new)
 
     %{game | plane: moved}
-    |> show_plane()
     |> game_over?()
   end
 
@@ -73,7 +72,7 @@ defmodule Lentokone.Game do
       |> Points.valid?(-10)
       |> Mountains.maybe_move(new)
 
-      %{game |  mountains: moved}
+    %{game |  mountains: moved}
   end
 
   def move_skyline(game) do
@@ -87,7 +86,15 @@ defmodule Lentokone.Game do
       |> Points.valid?(-10)
       |> Skyline.maybe_move(new)
 
-      %{game |  skyline: moved}
+    %{game |  skyline: moved}
+  end
+
+  def move_clouds(game) do
+    clouds =
+      for cloud <- game.clouds do
+        Clouds.left(cloud)
+      end
+    %{game | clouds: clouds}
   end
 
 
@@ -99,16 +106,13 @@ defmodule Lentokone.Game do
 
   def mountains_left(game), do: game |> move_mountains()
   def skyline_left(game), do: game |> move_skyline()
+  def clouds_left(game), do: game |> move_clouds()
 
   def add_arrow(game), do: game |> new_arrow()
 
   defp new_plane(game) do
     %{game | plane: Airplane.new()}
   end
-  defp show_plane(game) do
-    %{game | plane_points: Airplane.show(game.plane)}
-  end
-
   def new_arrow(game) do
     arrow = Arrow.new(direction: Arrow.random_direction, location: {length(game.sequence) + 15, 0})
     %{game | sequence: game.sequence ++ [arrow]}
@@ -121,9 +125,18 @@ defmodule Lentokone.Game do
   defp new_skyline(game) do
     %{game | skyline: Skyline.new()}
   end
+  defp new_clouds(game, n) do
+    clouds = for _cloud <- 1..n do
+      Clouds.new(location: Clouds.random_location())
+    end
+    %{game | clouds: clouds}
+  end
 
   defp game_over?(game) do
-    over = Points.terrain?(game.plane_points)
+    over =
+      game.plane
+      |> Airplane.show()
+      |> Points.terrain?()
     %{game | game_over: over}
   end
 
@@ -136,6 +149,5 @@ defmodule Lentokone.Game do
   def inc_score(game) do
     %{game | score: game.score + 1}
   end
-
 
 end
