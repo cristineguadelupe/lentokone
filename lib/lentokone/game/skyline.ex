@@ -1,7 +1,7 @@
 defmodule Lentokone.Game.Skyline do
   alias Lentokone.{Point, Points}
 
-  defstruct location: {8, 10}, type: 1
+  defstruct location: {80, 10}, type: 1
 
   def new(options \\ []) do
     __struct__(options)

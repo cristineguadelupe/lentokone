@@ -8,8 +8,8 @@ defmodule LentokoneWeb.GameLive do
     if connected?(socket) do
       :timer.send_interval(400, :tick)
       :timer.send_interval(250, :sequence)
-      :timer.send_interval(150, :mountains)
-      :timer.send_interval(400, :skyline)
+      :timer.send_interval(300, :mountains)
+      :timer.send_interval(300, :skyline)
       :timer.send_interval(75, :clouds)
     end
     {:ok, new_game(socket)}

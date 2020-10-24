@@ -102,8 +102,8 @@ defmodule LentokoneWeb.BoardComponent do
   end
   defp render_skyline(%{assigns: %{game: %{skyline: %{location: {x, y}, type: type}}}} = assigns) do
     ~L"""
-    <svg height="400" width="400" x="<%= x * 100 %>" y="<%= y %>" opacity="0.7">
-      <image width="300" height="650" xlink:href="<%= "images/skyline#{type}.png" %>" />
+    <svg height="400" width="400" x="<%= x * 10 %>" y="<%= y %>" opacity="0.5">
+      <image width="200" height="650" xlink:href="<%= "images/skyline#{type}.png" %>" />
     </svg>
     """
   end

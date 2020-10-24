@@ -26,7 +26,7 @@ defmodule Lentokone.Game.Mountains do
   end
 
   defp random_type(mountain) do
-    %{mountain | type: Enum.random(1..4)}
+    %{mountain | type: Enum.random(1..3)}
   end
 
 end

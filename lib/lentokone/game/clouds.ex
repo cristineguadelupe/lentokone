@@ -22,7 +22,7 @@ defmodule Lentokone.Game.Clouds do
 
   def random_location do
     x = Enum.random(60..250)
-    y = Enum.random(0..15)
+    y = Enum.random(0..20)
     {x, y}
   end
 
