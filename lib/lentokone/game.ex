@@ -107,7 +107,7 @@ defmodule Lentokone.Game do
   def skyline_left(game), do: game |> move_skyline()
   def cloud_left(game), do: game |> move_clouds()
 
-  def add_arrow(game), do: game |> new_arrow()
+  def add_arrow(game), do: game |> new_arrow() |> clear_arrows()
   def add_cloud(game), do: game |> new_cloud() |> clear_clouds()
 
   defp new_plane(game) do
@@ -148,6 +148,12 @@ defmodule Lentokone.Game do
     %{game | score: game.score + 1}
   end
 
+  defp clear_arrows(game) do
+    sequence =
+      game.sequence
+      |> Enum.filter(&(&1 |> Arrow.show |> Points.valid?(-10)))
+    %{game | sequence: sequence}
+  end
   defp clear_clouds(game) do
     clouds =
       game.clouds
